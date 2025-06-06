@@ -140,9 +140,9 @@ class Styled(object):
 
         self.plain_str = data.plain_str if isinstance(
             data, Styled) else str(data)
-        splited_str = re.split(r'(?<!{){(?!{)|(?<!})}(?!})', str(data))
+        splited_str = re.split(r'(\{\{*[\w\W]*?\}*\})', str(data))
         self.styled_str = Styles.make_color_prefix(Styles.CLEAR) + ''.join([(Styles.make_colors_prefix(
-            styles) + s) if i % 2 == 0 else ("{" + s + "}") for i, s in enumerate(splited_str)]) + Styles.make_color_prefix(Styles.CLEAR)
+            styles) + s) if i % 2 == 0 else s for i, s in enumerate(splited_str)]) + Styles.make_color_prefix(Styles.CLEAR)
 
     def __add__(self, other):
         """Concatenate two Styled objects or a Styled object with a string.
